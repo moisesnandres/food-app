@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../api';
+import './Meals.css';
 
 const Meals = () => {
   const { category } = useParams();
@@ -31,15 +32,17 @@ const Meals = () => {
   return (
     <div>
       <h1>Meals for {category}</h1>
-      <ul>
+      <div className="meals-container">
         {meals.map((meal) => (
-          <li key={meal.id}>
-            <h2>{meal.name}</h2>
-            <p>Price: ${meal.price}</p>
-            <img src={meal.image_url} alt={meal.name} width="200" />
-          </li>
+          <div key={meal.id} className="meal-card">
+            <img src={meal.image_url} alt={meal.name} className="meal-image" />
+            <h2 className="meal-name">{meal.name}</h2>
+            <p className="meal-price">
+              ${meal.price ? Number(meal.price).toFixed(2) : '0.00'}
+            </p>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
