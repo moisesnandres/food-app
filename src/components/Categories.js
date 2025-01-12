@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api';
+import './Categories.css';
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -26,17 +27,17 @@ const Categories = () => {
   }
 
   return (
-    <div>
-      <h1>Categories</h1>
-      <ul>
-        {categories.map((category) => (
-          <li key={category.id}>
-            <h2>{category.name}</h2>
-            <img src={category.image_url} alt={category.name} width="200" />
-            <Link to={`/meals/${category.name}`}>View Meals</Link>
-          </li>
-        ))}
-      </ul>
+    <div className="categories-container">
+      {categories.map((category) => (
+        <Link
+          to={`/meals/${category.name}`}
+          key={category.id}
+          className="category-card"
+          style={{ backgroundImage: `url(${category.image_url})` }}
+        >
+          <div className="category-name">{category.name}</div>
+        </Link>
+      ))}
     </div>
   );
 };
