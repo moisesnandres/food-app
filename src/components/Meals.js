@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { debounce } from 'lodash';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 import api from '../api';
 import './Meals.css';
 
@@ -75,6 +77,28 @@ const Meals = () => {
     applyFilters(search, option);
   };
 
+  const renderStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 >= 0.5;
+    const stars = [];
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<FontAwesomeIcon key={i} icon={faStar} className="star-icon" />);
+    }
+
+    if (halfStar) {
+      stars.push(
+        <FontAwesomeIcon
+          key="half-star"
+          icon={faStarHalfAlt}
+          className="star-icon"
+        />
+      );
+    }
+
+    return stars;
+  };
+
   if (loading) {
     return <p>Loading meals...</p>;
   }
@@ -116,6 +140,9 @@ const Meals = () => {
             <p className="meal-price">
               ${meal.price ? Number(meal.price).toFixed(2) : '0.00'}
             </p>
+            <div className="meal-rating">
+              {renderStars(meal.rating || 0)}
+            </div>
           </div>
         ))}
       </div>
